@@ -1,0 +1,25 @@
+verify_user_name()
+{
+    puts(verifying username....\n)
+}
+
+verify_user_pass
+
+a_user_name
+
+int main()
+{
+    char buff[64];
+
+    bzero(buff, 16 * sizeof(int));
+    puts("********* ADMIN LOGIN PROMPT *********");
+    printf("Enter Username: ");
+    fgets(a_user_name, 256, ??)
+    verify_user_name()
+    if (verify_user_name() != 0)
+    {
+        puts("nope, incorrect username...\n")
+        ret = 1;
+    }
+    return (ret);
+}
