@@ -21,5 +21,14 @@ int main()
         puts("nope, incorrect username...\n")
         ret = 1;
     }
+    else
+    {
+        puts("Enter Password: ")
+        fgets(, 100, )
+        "nope, incorrect password...\n"
+        verify_user_pass
+    }
     return (ret);
 }
+
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABBBBCCCCDDDD
