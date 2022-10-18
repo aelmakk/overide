@@ -1,16 +1,16 @@
+we have 3 buffers 
+* password entered by the user
+* password readed from the file 41 or 42
+* username entered by the user
 
-undefined8 main(void)
+
+int     main(int argc, char *argv[])
 
 {
-  int iVar1;
-  size_t sVar2;
-  long lVar3;
-  undefined8 *puVar4;
-  undefined8 local_118 [14];
-  undefined8 local_a8 [6];
-  undefined8 local_78 [12];
-  int local_14;
-  FILE *local_10;
+  char readed_password [41];
+  char entered_password [100];
+  char entered_username [100];
+  FILE *pass_file_ptr;
   
   puVar4 = local_78;
   for (lVar3 = 0xc; lVar3 != 0; lVar3 = lVar3 + -1) {
@@ -18,7 +18,7 @@ undefined8 main(void)
     puVar4 = puVar4 + 1;
   }
   *(undefined4 *)puVar4 = 0;
-  puVar4 = local_a8;
+  puVar4 = pass;
   for (lVar3 = 5; lVar3 != 0; lVar3 = lVar3 + -1) {
     *puVar4 = 0;
     puVar4 = puVar4 + 1;
@@ -30,25 +30,25 @@ undefined8 main(void)
     puVar4 = puVar4 + 1;
   }
   *(undefined4 *)puVar4 = 0;
-  local_10 = (FILE *)0x0;
+  pass_file_ptr = (FILE *)0x0;
   local_14 = 0;
-  local_10 = fopen("/home/users/level03/.pass","r");
-  if (local_10 == (FILE *)0x0) {
-    fwrite("ERROR: failed to open password file\n",1,0x24,stderr);
-                    /* WARNING: Subroutine does not return */
+  pass_file_ptr = fopen("/home/users/level03/.pass", "r");
+  if (pass_file_ptr == NULL) 
+  {
+    fwrite("ERROR: failed to open password file\n", 1, 0x24, stderr);
     exit(1);
   }
-  sVar2 = fread(local_a8,1,0x29,local_10);
+  read_return = fread(pass, 1, 41, pass_file_ptr);
   local_14 = (int)sVar2;
-  sVar2 = strcspn((char *)local_a8,"\n");
-  *(undefined *)((long)local_a8 + sVar2) = 0;
-  if (local_14 != 0x29) {
+  sVar2 = strcspn((char *)pass,"\n");
+  *(undefined *)((long)pass + sVar2) = 0;
+  if (local_14 != 41) {
     fwrite("ERROR: failed to read password file\n",1,0x24,stderr);
     fwrite("ERROR: failed to read password file\n",1,0x24,stderr);
                     /* WARNING: Subroutine does not return */
     exit(1);
   }
-  fclose(local_10);
+  fclose(pass_file_ptr);
   puts("===== [ Secure Access System v1.0 ] =====");
   puts("/***************************************\\");
   puts("| You must login to access this system. |");
@@ -62,8 +62,7 @@ undefined8 main(void)
   sVar2 = strcspn((char *)local_118,"\n");
   *(undefined *)((long)local_118 + sVar2) = 0;
   puts("*****************************************");
-  iVar1 = strncmp((char *)local_a8,(char *)local_118,0x29);
-  if (iVar1 == 0) {
+  if (strncmp(pass, local_118, 41) == 0) {
     printf("Greetings, %s!\n",local_78);
     system("/bin/sh");
     return 0;
@@ -73,3 +72,16 @@ undefined8 main(void)
                     /* WARNING: Subroutine does not return */
   exit(1);
 }
+
+
+unPR47hHEAJ5as9Q7zqCWNgX5J5hnGXsH3gPfK9M
+
+
+0x756e505234376848  ====>    unPR47hH
+0x45414a3561733951  ====>    EAJ5as9Q
+0x377a7143574e6758  ====>    7zqCWNgX
+0x354a35686e475873  ====>    5J5hnGXs
+0x48336750664b394d  ====>    H3gPfK9M
+
+
+RDI get passed as parameter to printf (rdi contain our format string that we enter as a username)
