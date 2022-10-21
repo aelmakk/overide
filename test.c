@@ -5,11 +5,9 @@
 
 int main(int argc, char *argv[])
 {
-	size_t spn = 0;
-	size_t date;
+	char str[] = "Q}|u`sfg~sf{}|a3";
 
-		date = (size_t)time(0);
-		printf ("time : %lu\n", date);
+		printf ("the length of stris  : %d\n", strlen(str));
 	
 	return (0);
 }
