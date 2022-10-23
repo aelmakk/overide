@@ -191,7 +191,7 @@ int decrypt(EVP_PKEY_CTX *ctx,uchar *out,size_t *outlen,uchar *in,size_t inlen)
     if (iVar3 == 0) break;
     iVar3 = iVar3 + -1;
     bVar6 = *(byte *)puVar4 < *pbVar5;
-    bVar7 = *(byte *)puVar4 == *pbVar5;
+    bVar7 = *puVar4 == *pbVar5;
     puVar4 = puVar4 + 1;
     pbVar5 = pbVar5 + 1;
   } while (bVar7);

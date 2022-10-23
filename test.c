@@ -1,13 +1,20 @@
 #include <stdio.h>
+#include <unistd.h>
 #include <string.h>
 #include <time.h>
 
 
 int main(int argc, char *argv[])
 {
-	char str[] = "Q}|u`sfg~sf{}|a3";
-
-		printf ("the length of stris  : %d\n", strlen(str));
-	
+	int fork_ret;
+ 	fork_ret = fork();
+	if (fork_ret == 0)
+	{
+		printf("fork equal 0\n");
+	}
+	else {
+	printf("after fork\n");
+		printf("not zero\n");
+	}
 	return (0);
 }
