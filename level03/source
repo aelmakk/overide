@@ -185,14 +185,14 @@ int decrypt(EVP_PKEY_CTX *ctx,uchar *out,size_t *outlen,uchar *in,size_t inlen)
     local_2c = local_2c + 1;
   }
   iVar3 = 0x11;
-  puVar4 = &local_21;
+  puVar4 = &local_21; // "Q}|u`sfg~sf{}|a3" after applying some instructions 
   pbVar5 = (byte *)"Congratulations!";
   do {
     if (iVar3 == 0) break;
     iVar3 = iVar3 + -1;
     bVar6 = *(byte *)puVar4 < *pbVar5;
     bVar7 = *(byte *)puVar4 == *pbVar5;
-    puVar4 = (undefined4 *)((int)puVar4 + 1);
+    puVar4 = puVar4 + 1;
     pbVar5 = pbVar5 + 1;
   } while (bVar7);
   if ((!bVar6 && !bVar7) == bVar6) {
