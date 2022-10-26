@@ -4,7 +4,8 @@
 int     main(void)
 {
     int something;
-    char buff[];
+    char buff[128];
+    int tmp;
 
     something = 0;
     fgets(buff, 100, stdin); // char *fgets(char *s, int size, FILE *stream);
