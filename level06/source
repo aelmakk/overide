@@ -1,8 +1,23 @@
 #include <stdio.h>
+#include <string.h>
 
-int     auth()
+
+int     auth(char *buff, unsigned int serial)
 {
-    ptrace(0, 0, 1, 0);
+    unsigned int    tmp;
+    int             ret;
+    
+    tmp = strcspn(buff, "\n");
+    buff[tmp] = '\0';
+    tmp = strnlen(buff, 32);
+    if (tmp > 5)
+    {
+        ptrace(0, 0, 1, 0);
+
+    }
+    else
+        ret = 1;
+    return (ret);
 }
 
 int     main(void)
@@ -27,7 +42,9 @@ int     main(void)
     {
         puts("Authenticated!");
         system("/bin/sh");
+        ret = 0;
     }
-
-    return (0);
+    else
+        ret = 1;
+    return (ret);
 }
