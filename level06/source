@@ -1,7 +1,33 @@
 #include <stdio.h>
 
-int     main(void)
+int     auth()
 {
-    
+    ptrace(0, 0, 1, 0);
+}
+
+int     main(void)
+{   
+    int             ret = 0;
+    char            buff[32];
+    unsigned int    serial;
+
+    //move a canary 
+    puts("***********************************");
+    puts("*\t\tlevel06\t\t  *");
+    puts("***********************************");
+    printf("-> Enter Login: ");
+    fgets(buff, 32, stdin);
+    puts("***********************************");
+    puts("***** NEW ACCOUNT DETECTED ********");
+    puts("***********************************");
+    printf("-> Enter Serial: ");
+    scanf("%u", &serial);
+    ret = auth(buff, serial);
+    if (ret ==  0)
+    {
+        puts("Authenticated!");
+        system("/bin/sh");
+    }
+
     return (0);
 }
