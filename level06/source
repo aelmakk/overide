@@ -2,17 +2,20 @@
 #include <string.h>
 
 
+// login : AAAAAA | serial : 6229050
+
 int     auth(char *buff, unsigned int serial)
 {
     unsigned int    tmp;
     int             ret;
-    
+
     tmp = strcspn(buff, "\n");
     buff[tmp] = '\0';
     tmp = strnlen(buff, 32);
     if (tmp > 5)
     {
         ptrace(0, 0, 1, 0);
+        // if ptrace return -1 display msg tampering detected and return (1)
 
     }
     else
