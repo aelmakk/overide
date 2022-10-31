@@ -11,33 +11,42 @@ store_number()
 
 }
 
-main(int argc, char *argv[])
+main(int argc, char **argv, char **envp)
 {
-    char              buff[400]; //confirmed that buff size is 400
+
     4byts_size        var1;
     4byts_size        var2;
     4byts_size        var3;
     4byts_size        var4;
     4byts_size        var5;
     4byts_size        var6;
-    char       *tmp;
+    char              buff[400]; //confirmed that buff size is 400
+    char              *tmp;
     
     // tmp = av[0];
     bzero(buff, sizeof(int) * 0x64);
-    strlen(argv[0]); //    "/home/users/level07/level07"  ==> 27
-    memset(argv[0], '\0', 27);
-    // weird shit 
-
+    tmp = *argv;
+    while (tmp)
+    {
+        memset(tmp, '\0', strlen(tmp));             //"/home/users/level07/level07"  ==> 27
+        tmp++; 
+    }
+    tmp = *envp;            // environment variable pointer
+    {
+        memset(tmp, '\0', strlen(tmp)); 
+        tmp++; 
+    }
     puts("----------------------------------------------------
-            \n  Welcome to wil\'s crappy number storage service!   \n
-            ----------------------------------------------------
-            \n Commands:
-            \n      store - store a number into the data storage
-            \n      read  - read a number from the data storage
-            \n      quit  - exit the program
-            ----------------------------------------------------
-                  wil has reserved some storage :>
-            ---------------------------------------------------");
+          Welcome to wil's crappy number storage service!
+        ----------------------------------------------------
+         Commands:
+            store - store a number into the data storage
+            read  - read a number from the data storage
+            quit  - exit the program
+        ----------------------------------------------------
+           wil has reserved some storage :>
+        ----------------------------------------------------");
     printf("Input command: ");
+    fgets(, 20, stdin);
     return (0);
 }
