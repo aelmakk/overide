@@ -1,9 +1,19 @@
 #include <stdio.h>
 #include <string.h>
 
+unsigned int        get_unum()
+{
+    unsigned int number;
+
+    fflush(stdout);
+    scanf("%u", &number);
+    // clear_stdin
+    return (number);
+}
+
 read_number()
 {
-
+    printf(" Index: ");
 }
 
 store_number()
