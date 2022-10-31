@@ -14,12 +14,8 @@ store_number()
 main(int argc, char **argv, char **envp)
 {
 
-    4byts_size        var1;
-    4byts_size        var2;
-    4byts_size        var3;
-    4byts_size        var4;
-    4byts_size        var5;
-    4byts_size        var6;
+    int               var1;
+    char              command[20];
     char              buff[400]; //confirmed that buff size is 400
     char              *tmp;
     
@@ -45,8 +41,32 @@ main(int argc, char **argv, char **envp)
             quit  - exit the program
         ----------------------------------------------------
            wil has reserved some storage :>
-        ----------------------------------------------------");
-    printf("Input command: ");
-    fgets(, 20, stdin);
+        ----------------------------------------------------\n");
+    while (true)
+    {
+        printf("Input command: ");
+        var1 = 1;
+        fgets(command, 20, stdin);
+        strlen(command);
+        command[strlen(command) - 1] = '\0';            //newline char
+        if (command == "store")
+            var1 = store_number(buff);
+        else if (command == "read")
+            var1 = read_number(buff);
+        else if (command == "quit")
+            return (0);
+        if (var1 == 0)
+        {
+            printf(" Completed %s command successfully\n", command);
+            bzero(command, sizeof(command));
+            // jump to main+300;
+        }
+        else
+        {
+            printf(" Failed to do %s command\n", command);
+            bzero(command, sizeof(command));
+            // jump to main+300;
+        }
+    }
     return (0);
 }
