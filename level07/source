@@ -25,8 +25,8 @@ int             read_number(unsigned int arr[])
 
 int             store_number()
 {
-    unsigned int number;
     unsigned int index;
+    unsigned int number;
 
     number = 0;
     index = 0;
@@ -41,6 +41,10 @@ int             store_number()
         puts("   This index is reserved for wil!");
         puts(" *** ERROR! ***");
         return (1);
+    }
+    else 
+    {
+        // store number
     }
     return (0); 
 }
