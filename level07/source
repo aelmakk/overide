@@ -11,13 +11,31 @@ unsigned int        get_unum()
     return (number);
 }
 
-read_number()
+read_number(unsigned int arr[])
 {
+    unsigned int number;
+    unsigned int tmp ;
+
     printf(" Index: ");
+    number = get_unum();
+    tmp = (number << 2) + arr;
+    printf(" Number at data[%u] is %u\n", number, arr[tmp]);
 }
 
 store_number()
 {
+    unsigned int number;
+    unsigned int index;
+
+    number = 0;
+    index = 0;
+    printf(" Number: ");
+    number = get_unum();
+    printf(" Index: ");
+    puts(" *** ERROR! ***");
+    puts("   This index is reserved for wil!");
+    puts(" *** ERROR! ***");
+
 
 }
 
@@ -26,11 +44,11 @@ main(int argc, char **argv, char **envp)
 
     int               var1;
     char              command[20];
-    char              buff[400]; //confirmed that buff size is 400
+    unsigned int      arr[100]; //confirmed that arr size is 400
     char              *tmp;
     
     // tmp = av[0];
-    bzero(buff, sizeof(int) * 0x64);
+    bzero(arr, sizeof(int) * 0x64);
     tmp = *argv;
     while (tmp)
     {
@@ -60,9 +78,9 @@ main(int argc, char **argv, char **envp)
         strlen(command);
         command[strlen(command) - 1] = '\0';            //newline char
         if (command == "store")
-            var1 = store_number(buff);
+            var1 = store_number(arr);
         else if (command == "read")
-            var1 = read_number(buff);
+            var1 = read_number(arr);
         else if (command == "quit")
             return (0);
         if (var1 == 0)
