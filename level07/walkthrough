@@ -1,0 +1,4 @@
+possible exploit :
+
+    * inject the shellcode in command buff.
+    * overwrite the return address of main or other function to execute shellcode.
