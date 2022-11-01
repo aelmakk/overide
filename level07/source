@@ -11,18 +11,19 @@ unsigned int        get_unum()
     return (number);
 }
 
-read_number(unsigned int arr[])
+int             read_number(unsigned int arr[])
 {
     unsigned int number;
-    unsigned int tmp ;
+    unsigned int index ;
 
     printf(" Index: ");
-    number = get_unum();
-    tmp = (number << 2) + arr;
-    printf(" Number at data[%u] is %u\n", number, arr[tmp]);
+    index = get_unum();
+    // index = (index << 2);
+    printf(" Number at data[%u] is %u\n", number, arr[index]);
+    return (0);
 }
 
-store_number()
+int             store_number()
 {
     unsigned int number;
     unsigned int index;
@@ -32,17 +33,22 @@ store_number()
     printf(" Number: ");
     number = get_unum();
     printf(" Index: ");
-    puts(" *** ERROR! ***");
-    puts("   This index is reserved for wil!");
-    puts(" *** ERROR! ***");
-
-
+    (index * 0xaaaaaaab) >> 1;
+    //doing some weird shit 
+    if ()
+    {
+        puts(" *** ERROR! ***");
+        puts("   This index is reserved for wil!");
+        puts(" *** ERROR! ***");
+        return (1);
+    }
+    return (0); 
 }
 
 main(int argc, char **argv, char **envp)
 {
 
-    int               var1;
+    int               status;
     char              command[20];
     unsigned int      arr[100]; //confirmed that arr size is 400
     char              *tmp;
@@ -73,17 +79,17 @@ main(int argc, char **argv, char **envp)
     while (true)
     {
         printf("Input command: ");
-        var1 = 1;
+        status = 1;
         fgets(command, 20, stdin);
         strlen(command);
         command[strlen(command) - 1] = '\0';            //newline char
         if (command == "store")
-            var1 = store_number(arr);
+            status = store_number(arr);
         else if (command == "read")
-            var1 = read_number(arr);
+            status = read_number(arr);
         else if (command == "quit")
             return (0);
-        if (var1 == 0)
+        if (status == 0)
         {
             printf(" Completed %s command successfully\n", command);
             bzero(command, sizeof(command));
