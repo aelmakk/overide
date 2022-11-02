@@ -1,8 +1,10 @@
 possible exploit :
-
+    
+    * its possible to concatenate any shellcode to a legal command(store, read, quit)
     * inject the shellcode in command buff.
     * overwrite the return address of main or other function to execute shellcode.
     ===> overiwting the return address of main didn't work since the offeset is + 14 from the end of buff, 
+    * overwrite the plt 
 
 possible pyload :
 
@@ -13,3 +15,8 @@ since we can't write 3 continues value , the index of the return address of syst
 --------------------------------------------------------------
 
 the only thing last is to find a way to redirect the return to the address of our pyload
+
+
+
+
+magic number 1073741938
