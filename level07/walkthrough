@@ -20,3 +20,10 @@ the only thing last is to find a way to redirect the return to the address of ou
 
 
 magic number 1073741938
+system = 0xf7e6aed0 = 4159090384
+/bin/sh = 0xf7f897ec = 4160264172
+
+start of shellcode 4294956332 ===>  0xffffd52c
+
+
+1*2^(30) = 1073741824
