@@ -2,17 +2,41 @@
 #include <stdlib.h>
 #include <string.h>
 
+log_wrapper(FILE *ptr, char *str, char *prog_name)
+{
+    char *p_name = prog_name;
+    char pad = str;
+    FILE *file_ptr = ptr; 
+}
 
 int     main(int argc, char *argv[])
 {
     var1;
     var2;
+    FILE *ptr1;
+    FILE *ptr2;
 
-    var1 = 255;
+    var1 = 255; // 1 byte operation
     var2 = -1 or max unsigned int ; // not sure about the type 
     if (argc != 2)
+        printf("Usage: %s filename\n", argv[0]);
+
+    ptr = fopen("./backups/.log", "w");
+    if (ptr == NULL)
     {
-        
+        printf ("ERROR: Failed to open %s\n", ); // something weird happen here the sometime %s = ./backups/.log or the argv[1]
+        exit (1);
     }
+    log_wrapper(ptr, "Starting back up: ", argv[1]);
+    ptr2 = fopen(argv[1], "r");
+    if (ptr2 == NULL)
+    {
+        printf("ERROR: Failed to open %s\n", argv[1]);
+        exit (1);
+    }
+    //weird shit 
+    strlen(something XD);
+    strncat(, 89); // 0x63 = 99
+    open()
     return (0);
 }

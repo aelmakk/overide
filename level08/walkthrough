@@ -1,0 +1,5 @@
+possible exploit :
+        * inject shellcode in file name
+
+
+        * open return NULL while opening "./backups/.log" with "w" permision (verify with getfacl command) this happen at least in gdb 
