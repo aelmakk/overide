@@ -34,14 +34,16 @@ int     main(int argc, char *argv[])
         printf("ERROR: Failed to open %s\n", argv[1]);
         exit (1);
     }
-    at main + 281 i have to change edx to "/tmp/.backups/" instead of "./backups/"
-    strlen("/tmp/backup");
-    strncat(, 89); // 0x63 = 99
-    open()
+    // at main + 281 i have to change edx to "/tmp/AAAA/" instead of "./backups/"
+    var = "./backups/";
+    strlen(var); // "./backups/" ===> 10
+    strncat(dst, src, 99 - len_var); // 0x63 = 99 99 is constant value  get subtracted from the length of backup folder name "./backups/"
+    open();
     if ()
     {
-        printf ("ERROR: Failed to open %s%s\n", ); 
+        printf ("ERROR: Failed to open %s%s\n", "./backups/", argv[1]); 
         exit (1);
     }
+    fgetc(file_to_backup_ptr);
     return (0);
 }
