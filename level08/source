@@ -24,7 +24,7 @@ int     main(int argc, char *argv[])
     ptr = fopen("./backups/.log", "w");
     if (ptr == NULL)
     {
-        printf ("ERROR: Failed to open %s\n", ); // something weird happen here the sometime %s = ./backups/.log or the argv[1]
+        printf ("ERROR: Failed to open %s\n", ); // open the backup folder 
         exit (1);
     }
     log_wrapper(ptr, "Starting back up: ", argv[1]);
