@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <fcntl.h>
 #include <string.h>
+#include <unistd.h>
 
 void        log_wrapper(FILE *ptr, char *str, char *prog_name)
 {
@@ -11,13 +13,11 @@ void        log_wrapper(FILE *ptr, char *str, char *prog_name)
 
 int     main(int argc, char *argv[])
 {
-    var1;
-    var2;
+    int  fd;
     FILE *backup_file_ptr;
     FILE *file_to_backup_ptr;
+    char *dst;
 
-    var1 = 255; // 1 byte operation
-    var2 = -1 or max unsigned int ; // not sure about the type 
     if (argc != 2)
         printf("Usage: %s filename\n", argv[0]);
 
@@ -35,15 +35,21 @@ int     main(int argc, char *argv[])
         exit (1);
     }
     // at main + 281 i have to change edx to "/tmp/AAAA/" instead of "./backups/"
-    var = "./backups/";
-    strlen(var); // "./backups/" ===> 10
-    strncat(dst, src, 99 - len_var); // 0x63 = 99 99 is constant value  get subtracted from the length of backup folder name "./backups/"
-    open();
-    if ()
+    dst = "./backups/" ;
+    strncat(dst, argv[1], 99 - strlen("./backups/")); // 0x63 = 99 99 is constant value  get subtracted from the length of backup folder name "./backups/"
+    fd = open (dst, O_CREAT | O_EXCL | O_WRONLY);
+    if (fd == 0)
     {
         printf ("ERROR: Failed to open %s%s\n", "./backups/", argv[1]); 
         exit (1);
     }
-    fgetc(file_to_backup_ptr);
+    unsigned char c = 0xff;
+    do {
+        c = fgetc (file_to_backup_ptr); // argv[1]
+        write (fd, &c, 1); // the return of fgetc get moved to rcx
+    } while (c != 0xff);
+    log_wrapper(backup_file_ptr, "Finished back up ", argv[1]); // backup_file_ptr = "./backups/.log"
+    fclose(file_to_backup_ptr);
+    close(fd); // the new file backedup in backups folder
     return (0);
 }
