@@ -1,0 +1,50 @@
+#include <stdio.h>
+
+set_msg(buff)
+{
+    char *ptr = buff;
+    char buff[1024];
+
+    bzero(ptr, 8 * 0x80);
+    puts(">: Msg @Unix-Dude");
+    printf(">>: ");
+    fgets(buff, 1024, stdin);
+    strncpy();
+}
+
+set_username(char *username)
+{
+    char buff[128];
+    int32_t counter;
+
+    puts(">: Enter your username");
+    printf(">>: ");
+    fgets(buff, 0x80, stdin); // 0x80 ==> 128
+    counter = 0;
+    while (counter <= 0x28 && buff[counter])
+    {
+        counter += 1;
+    }
+    printf(">: Welcome, %s", set_username);
+}
+
+void    handle_msg()
+{
+    int32_t a;
+    char buff[40];
+
+    memset (buff, '\0', sizeof(buff));
+    a = 0x8c ; // 140
+    set_username(buff);
+    set_msg();
+    puts(">: Msg sent!");
+}
+
+int     main(int argc, char *argv[])
+{
+    puts("--------------------------------------------
+         |   ~Welcome to l33t-m$n ~    v1337        |
+         --------------------------------------------");
+    handle_msg();
+    return (0);
+}
