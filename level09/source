@@ -1,21 +1,21 @@
 #include <stdio.h>
 
-set_msg(buff)
+set_msg(char *ptr)
 {
-    char *ptr = buff;
+    char *ptr = ptr;
     char buff[1024];
 
     bzero(ptr, 8 * 0x80);
     puts(">: Msg @Unix-Dude");
     printf(">>: ");
     fgets(buff, 1024, stdin);
-    strncpy();
+    strncpy(ptr, buff, ptr + 0xb4);
 }
 
 set_username(char *username)
 {
-    char buff[128];
     int32_t counter;
+    char buff[128];
 
     puts(">: Enter your username");
     printf(">>: ");
@@ -23,20 +23,22 @@ set_username(char *username)
     counter = 0;
     while (counter <= 0x28 && buff[counter])
     {
+        // copy 41 char to username + 0x8c
         counter += 1;
     }
-    printf(">: Welcome, %s", set_username);
+    printf(">: Welcome, %s", username + 0x8c);
 }
 
 void    handle_msg()
 {
     int32_t a;
-    char buff[40];
+    char buff2[40];
+    char buff1[140];
 
-    memset (buff, '\0', sizeof(buff));
+    memset (buff2, '\0', sizeof(buff2));
     a = 0x8c ; // 140
-    set_username(buff);
-    set_msg();
+    set_username(buff1);
+    set_msg(buff1);
     puts(">: Msg sent!");
 }
 
