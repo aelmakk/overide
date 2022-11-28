@@ -1,0 +1,4 @@
+* in this level00 , the program prompt for a password .
+* providing a wrong password print "invalid password" msg. else it calls system("/bin/sh").
+* When looking  into the assembly using gdb , i found that the program compare the password we provide (expect an integer) with the value 5276.
+==> giving 5276 as password gives a shell , so we can easily cat /home/users/level01/.pass.
