@@ -1,34 +1,43 @@
-verify_user_name()
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+
+char a_user_name[256];
+
+int    verify_user_name()
 {
-    puts(verifying username....\n)
+    puts("verifying username....\n");
+    return (strncmp("dat_wil", a_user_name, 7));
 }
 
-verify_user_pass
-
-a_user_name
+int     verify_user_pass(char *buff)
+{
+    return (strncmp("admin", buff, 5));
+}
 
 int main()
 {
     char buff[64];
+    int flag;
 
     bzero(buff, 16 * sizeof(int));
+    flag = 0;
     puts("********* ADMIN LOGIN PROMPT *********");
     printf("Enter Username: ");
-    fgets(a_user_name, 256, ??)
-    verify_user_name()
-    if (verify_user_name() != 0)
+    fgets(a_user_name, 256, stdin);
+    flag = verify_user_name();
+    if (flag != 0)
     {
-        puts("nope, incorrect username...\n")
-        ret = 1;
+        puts("nope, incorrect username...\n");
+        return (1);
     }
     else
     {
-        puts("Enter Password: ")
-        fgets(, 100, )
-        "nope, incorrect password...\n"
-        verify_user_pass
+        puts("Enter Password: ");
+        fgets(buff, 100, stdin);
+        flag = verify_user_pass(buff);
+        puts("nope, incorrect password...\n");
+        return (0);
     }
-    return (ret);
+    return (0);
 }
-
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABBBBCCCCDDDD
