@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#inlcude <time.h>
+#include <time.h>
 
 void	decrypt(int key)
 {
