@@ -1,8 +1,20 @@
-main
+* In this level03 the program asks for a password , entring a random input, the program display the msg "\nInvalid Password".
+* looking at the assembly in gdb the main() call the function test(password, 0x1337d00d) with the password we entered and the number 0x1337d00d as parameters respectivly.
+* test function subtract our password from the second parameter, if the result is between 1 and 21 it gets passed to decrypt(result), else the result of rand() is passed to decrypt.
+* decrypt function loop through the string "Q}|u`sfg~sf{}|a3" and XOR each character with result
+* if the resulting string is equal to "Congratulations!", it calls system("/bin/sh"), else it display invalid password.
+* so to get to "Congratulations!", i perfomed a XOR operation between the string "Q}|u`sfg~sf{}|a3" and "Congratulations!" , i got 18 
+* but out password get subtructed in test() from 0x1337d00d, so the password is 0x1337d00d - 18 = 322424827.
 
-clear_stdin
-get_unum
-prog_timeout
-decrypt
-test
-main
+
+--------------------------------------------------
+level03@OverRide:~$ ./level03
+***********************************
+*		level03		**
+***********************************
+Password:322424827
+$ whoami
+level04
+$ cat /home/users/level04/.pass
+kgv3tkEb9h2mLkRsPkXRfc2mHbjMxQzvb2FrgKkf
+--------------------------------------------------
