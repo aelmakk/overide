@@ -1,3 +1,10 @@
+* In this challenge the main() asks for a username , and a serial , than passes them as arguments to function auth() respectively. if the return is 0 the program prints "Authenticated!" and call system("/bin/sh"), else return (1).
+* function auth first checks if the username is longer than 6 characters , if not it return 1
+* if the username is longer enough it do some operations on the serial we provide, than it compares it with initial serial we provide .
+
+
+==> I solved this challenge with following c program :
+
 // login : AAAAAA | serial : 6229050
 
 ************************ to find serial ************************
