@@ -1,53 +1,73 @@
 #include <stdio.h>
 #include <string.h>
+#include <sys/types.h>
+#include <sys/ptrace.h>
 
-
-// login : AAAAAA | serial : 6229050
-
-int     auth(char *buff, unsigned int serial)
+int     auth(char *username, unsigned int serial)
 {
-    unsigned int    tmp;
-    int             ret;
+	size_t    tmp;
+	int       ret;
+	int       i;
+	uint      pass;
 
-    tmp = strcspn(buff, "\n");
-    buff[tmp] = '\0';
-    tmp = strnlen(buff, 32);
-    if (tmp > 5)
-    {
-        ptrace(0, 0, 1, 0);
-        // if ptrace return -1 display msg tampering detected and return (1)
+	tmp = strcspn(username, "\n");
+	username[tmp] = '\0';
+	tmp = strnlen(username, 0x20);
+	if (tmp < 6)
+		ret = 1;
+	else
+	{
+		if (ptrace(0, 0, 1, 0) == -1)
+		{ 
+		  puts("\x1b[32m.---------------------------.");
+		  puts("\x1b[31m| !! TAMPERING DETECTED !!  |");
+		  puts("\x1b[32m\'---------------------------\'");
+		  ret = 1;
+		}
+		else {
+		  pass = ((int)username[3] ^ 0x1337) + 0x5eeded;
+		  for (i = 0; i < tmp; i++)
+		  {
+			if (username[i] < ' ')
+				return 1;
+			pass = pass + ((int)username[i] ^ pass) % 0x539;
+		  }
+		  if (serial == pass) {
+			ret = 0;
+		  }
+		  else {
+			ret = 1;
+		  }
+		}
+  }
+  return ret;
 
-    }
-    else
-        ret = 1;
-    return (ret);
-}
 
 int     main(void)
 {   
-    int             ret = 0;
-    char            buff[32];
-    unsigned int    serial;
+	int             ret = 0;
+	char            username[32];
+	unsigned int    serial;
 
-    //move a canary 
-    puts("***********************************");
-    puts("*\t\tlevel06\t\t  *");
-    puts("***********************************");
-    printf("-> Enter Login: ");
-    fgets(buff, 32, stdin);
-    puts("***********************************");
-    puts("***** NEW ACCOUNT DETECTED ********");
-    puts("***********************************");
-    printf("-> Enter Serial: ");
-    scanf("%u", &serial);
-    ret = auth(buff, serial);
-    if (ret ==  0)
-    {
-        puts("Authenticated!");
-        system("/bin/sh");
-        ret = 0;
-    }
-    else
-        ret = 1;
-    return (ret);
+	//move a canary 
+	puts("***********************************");
+	puts("*\t\tlevel06\t\t  *");
+	puts("***********************************");
+	printf("-> Enter Login: ");
+	fgets(username, 32, stdin);
+	puts("***********************************");
+	puts("***** NEW ACCOUNT DETECTED ********");
+	puts("***********************************");
+	printf("-> Enter Serial: ");
+	scanf("%u", &serial);
+	ret = auth(username, serial);
+	if (ret ==  0)
+	{
+		puts("Authenticated!");
+		system("/bin/sh");
+		ret = 0;
+	}
+	else
+		ret = 1;
+	return (ret);
 }

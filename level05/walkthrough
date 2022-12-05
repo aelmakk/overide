@@ -1,4 +1,4 @@
-* In this level05 the main() calls fgets to read 100 bytes from stdin, than loop over buffer and lower all the characters.
+* In this level05 the main() calls fgets to read 100 bytes from stdin, than loop over buffer and lower all the upper case characters.
 * after this it print the buffer on stdout using printf, than the program calls exit(0).
 * the problem here is that the buffer gets passed directly as a format string to printf .
 * we can abuse that to redirect code execution, ( using %n and $ sign on printf we can write the exit got with the address of a shellcode that we inject in eviromnent variable).

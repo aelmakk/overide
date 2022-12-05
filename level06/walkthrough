@@ -1,3 +1,35 @@
-https://stackoverflow.com/questions/26145952/gdb-sigalrm-alarm-clock-termination
+// login : AAAAAA | serial : 6229050
 
-https://stackoverflow.com/questions/9249315/what-is-gs-in-assembly // the use of gs in assembly (place a canary)
+************************ to find serial ************************
+
+#include <stdio.h>
+
+int main()
+{
+    unsigned int pass;
+    unsigned int serial;
+    int i;
+    
+    serial = 0;
+    while (1)
+    {
+        pass = ('A' ^ 0x1337) + 0x5eeded;
+		for (i = 0; i < 6; i++)
+		{
+			pass = pass + ('A' ^ pass) % 0x539;
+		}
+		if (serial == pass) {
+			printf("%u\n", serial);
+			break;
+		}
+		else {
+		    serial += 1;
+        }
+
+    }
+    return 0;
+}
+
+===> 6229050
+
+****************************************************************
