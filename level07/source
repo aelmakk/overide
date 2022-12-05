@@ -1,5 +1,19 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
+
+void clear_stdin(void)
+{
+  int c;
+  
+  do {
+    c = getchar();
+    if ((char)c == '\n') {
+      return;
+    }
+  } while ((char)c != -1);
+  return;
+}
 
 unsigned int        get_unum()
 {
@@ -7,7 +21,7 @@ unsigned int        get_unum()
 
     fflush(stdout);
     scanf("%u", &number);
-    // clear_stdin
+    clear_stdin ();
     return (number);
 }
 
@@ -18,12 +32,12 @@ int             read_number(unsigned int arr[])
 
     printf(" Index: ");
     index = get_unum();
-    // index = (index << 2);
-    printf(" Number at data[%u] is %u\n", number, arr[index]);
+    // to get to the right index (arr + (index << 2); multiplay the index by 4 , size of uint)
+    printf(" Number at data[%u] is %u\n", number, arr[index]); 
     return (0);
 }
 
-int             store_number()
+int             store_number(unsigned int arr[])
 {
     unsigned int index;
     unsigned int number;
@@ -33,9 +47,9 @@ int             store_number()
     printf(" Number: ");
     number = get_unum();
     printf(" Index: ");
-    (index * 0xaaaaaaab) >> 1;
-    //doing some weird shit 
-    if ()
+    index = get_unum();
+    //doing some weird shit to test if index is devisable by 3.
+    if (index % 3 == 0 || number >> 0x18 == 183)
     {
         puts(" *** ERROR! ***");
         puts("   This index is reserved for wil!");
@@ -43,18 +57,15 @@ int             store_number()
         return (1);
     }
     else 
-    {
-        // store number
-    }
+        arr[index] = number;
     return (0); 
 }
 
-main(int argc, char **argv, char **envp)
+int     main(int argc, char **argv, char **envp)
 {
-
     int               status;
     char              command[20];
-    unsigned int      arr[100]; //confirmed that arr size is 400
+    unsigned int      arr[100];
     char              *tmp;
     
     // tmp = av[0];
@@ -62,7 +73,7 @@ main(int argc, char **argv, char **envp)
     tmp = *argv;
     while (tmp)
     {
-        memset(tmp, '\0', strlen(tmp));             //"/home/users/level07/level07"  ==> 27
+        memset(tmp, '\0', strlen(tmp));   
         tmp++; 
     }
     tmp = *envp;            // environment variable pointer
@@ -70,40 +81,29 @@ main(int argc, char **argv, char **envp)
         memset(tmp, '\0', strlen(tmp)); 
         tmp++; 
     }
-    puts("----------------------------------------------------
-          Welcome to wil's crappy number storage service!
-        ----------------------------------------------------
-         Commands:
-            store - store a number into the data storage
-            read  - read a number from the data storage
-            quit  - exit the program
-        ----------------------------------------------------
-           wil has reserved some storage :>
-        ----------------------------------------------------\n");
-    while (true)
+    puts("----------------------------------------------------\n  Welcome to wil\'s crappy number storage service!\n----------------------------------------------------\n Commands:\n    store - store a number into the data storage\n    read  - read a number from the data storage\n    quit  - exit the program\n----------------------------------------------------\n   wil has reserved some storage :>\n----------------------------------------------------\n");
+    while (1)
     {
         printf("Input command: ");
         status = 1;
         fgets(command, 20, stdin);
         strlen(command);
-        command[strlen(command) - 1] = '\0';            //newline char
-        if (command == "store")
+        command[strlen(command) - 1] = '\0';            // -1 for newline character
+        if (strncmp("store", command, 0x5) == 0)
             status = store_number(arr);
-        else if (command == "read")
+        else if (strncmp("read", command, 0x4) == 0)
             status = read_number(arr);
-        else if (command == "quit")
+        else if (strncmp("quit", command, 0x4) == 0)
             return (0);
         if (status == 0)
         {
             printf(" Completed %s command successfully\n", command);
             bzero(command, sizeof(command));
-            // jump to main+300;
         }
         else
         {
             printf(" Failed to do %s command\n", command);
             bzero(command, sizeof(command));
-            // jump to main+300;
         }
     }
     return (0);
