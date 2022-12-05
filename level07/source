@@ -81,7 +81,16 @@ int     main(int argc, char **argv, char **envp)
         memset(tmp, '\0', strlen(tmp)); 
         tmp++; 
     }
-    puts("----------------------------------------------------\n  Welcome to wil\'s crappy number storage service!\n----------------------------------------------------\n Commands:\n    store - store a number into the data storage\n    read  - read a number from the data storage\n    quit  - exit the program\n----------------------------------------------------\n   wil has reserved some storage :>\n----------------------------------------------------\n");
+    puts("----------------------------------------------------
+          Welcome to wil\'s crappy number storage service!
+        ----------------------------------------------------
+            Commands:
+                store - store a number into the data storage
+                read  - read a number from the data storage
+                quit  - exit the program
+        ----------------------------------------------------
+                      wil has reserved some storage :>
+        ----------------------------------------------------\n");
     while (1)
     {
         printf("Input command: ");
