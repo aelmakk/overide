@@ -1,19 +1,29 @@
 possible exploit :
     
-    * its possible to concatenate any shellcode to a legal command(store, read, quit)
-    * inject the shellcode in command buff.
-    * overwrite the return address of main or other function to execute shellcode.
-    ===> overiwting the return address of main didn't work since the offeset is + 14 from the end of buff, 
-    * overwrite the plt 
+    * its possible to concatenate any shellcode to a legal command(store, read, quit).
+    ==> this doesn't work because the command get filled with zeros after each operation.
+    * overwrite the return address of main with the address of system.
+-------------------------------------------------------------------------------------------------
+
+* The challenge display a menu with 3 commands and a description for each.(store, read, quit).
+* the program start by asking for a valid command, if its not one of the valid command, it prints an error msg, and start from scratch.
+* if we asks the program to read a number, it asks for and index and prints its content .
+* if we try to store a number the program asks for a number first , than an index .
+* after that the program prints a msg telling if the command (storing or reading a number) is done successfully.
+* i thought of overwriting the return address of main with the address of system(), looking at the assembly the return is +456 bytes from the start of the buffer, where the data gets stored.
+* looking at the assembly store_number() function which is responsible for storing the number checks if ((index % 3 == 0 ) || (number >> 0x18 == 183)),
+* if the condition is met it display an error msg and return 1 to main .
+* return of main is at index 114 which divisible with 3. so we can't write directly . 
+* i noticed that index get shifted by 2 to left (multiply it by 4 , the size of unsigned int) to get the location where the number should be stored.
+* so i thought of using this to run an integer overflow attack .
+
+
+
 
 format of the pyload :
     * [address of system] + [ adress of return of system]  + [adress of /bin/sh/]
 
-* because its not easy to write 3 continues values , the return of system could be written in an index divisible by 3, it has no effect since the goal is to return to system,
-so we can write write before, and after that index , its straightforward.
-
-
-system = 0xf7e6aed0 = 4159090384    | index = 1073741938
+system = 0xf7e6aed0 = 4159090384    | index = 2147483762 // index << 2 = 456 this how far the return address main() from the start of buffer.
 /bin/sh = 0xf7f897ec = 4160264172   | index = 116
 
 ******************** POC *******************************
@@ -32,3 +42,7 @@ level08
 $ cat /home/users/level08/.pass
 7WJ6jFBzrcjEYXudxnM3kdW7n3qyxR6tk2xGrkSC
 ********************************************************
+
+00000000 00000000 00000000 01110010
+10000000 00000000 00000000 01110010
+10000000000000000000000001110010

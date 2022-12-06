@@ -27,13 +27,13 @@ unsigned int        get_unum()
 
 int             read_number(unsigned int arr[])
 {
-    unsigned int number;
     unsigned int index ;
 
+    index = 0;
     printf(" Index: ");
     index = get_unum();
     // to get to the right index (arr + (index << 2); multiplay the index by 4 , size of uint)
-    printf(" Number at data[%u] is %u\n", number, arr[index]); 
+    printf(" Number at data[%u] is %u\n", index, arr[index]); 
     return (0);
 }
 
