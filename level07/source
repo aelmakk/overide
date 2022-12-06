@@ -66,19 +66,18 @@ int     main(int argc, char **argv, char **envp)
     int               status;
     char              command[20];
     unsigned int      arr[100];
-    char              *tmp;
+    char              **tmp;
     
-    // tmp = av[0];
     bzero(arr, sizeof(int) * 0x64);
-    tmp = *argv;
-    while (tmp)
+    tmp = argv;
+    while (*tmp)
     {
-        memset(tmp, '\0', strlen(tmp));   
+        memset(*tmp, '\0', strlen(*tmp));   
         tmp++; 
     }
-    tmp = *envp;            // environment variable pointer
+    tmp = envp;            // environment variable pointer
     {
-        memset(tmp, '\0', strlen(tmp)); 
+        memset(*tmp, '\0', strlen(*tmp)); 
         tmp++; 
     }
     puts("----------------------------------------------------
