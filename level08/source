@@ -4,18 +4,17 @@
 #include <string.h>
 #include <unistd.h>
 
-void        log_wrapper(FILE *ptr, char *backup_status, char *prog_name)
+void        log_wrapper(FILE *ptr, char backup_status[], char *prog_name)
 {
     char *p_name = prog_name;  // file to backup ".pass" (argv[1])
-    char backup_status[] = backup_status;
     FILE *log_file_ptr = ptr; 
-    char *buff;
-    char *str;
+    char buff[254];
 
     strcpy(buff, backup_status); // starting , finishing backup
-    snprintf(str, 0xfe - strlen(backup_status), p_name);
-    strcspn(backup_status, "\n");
-    fprintf(log_file_ptr, "LOG: %s\n", backup_status);
+    int tmp = 254 - strlen(backup_status);
+    snprintf(buff + strlen(backup_status), tmp, p_name);
+    strcspn(buff, "\n");
+    fprintf(log_file_ptr, "LOG: %s\n", buff);
 }
 
 int     main(int argc, char *argv[])
@@ -23,7 +22,7 @@ int     main(int argc, char *argv[])
     int  fd;
     FILE *backup_file_ptr;
     FILE *file_to_backup_ptr;
-    char *dst;
+    char dst[100];
 
     if (argc != 2)
         printf("Usage: %s filename\n", argv[0]);
@@ -42,7 +41,7 @@ int     main(int argc, char *argv[])
         exit (1);
     }
     // at main + 281 i have to change edx to "/tmp/AAAA/" instead of "./backups/"
-    dst = "./backups/" ;
+    strcpy(dst, "./backups/");
     strncat(dst, argv[1], 99 - strlen("./backups/")); // 0x63 = 99 99 is constant value  get subtracted from the length of backup folder name "./backups/"
     fd = open (dst, O_CREAT | O_EXCL | O_WRONLY, S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP);
     if (fd <= 0)
