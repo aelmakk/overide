@@ -1,3 +1,7 @@
+to test the log file i changed the backups/.log to /tmp/AAAA/.log
+* open the backups folder and test if its opened successfuly  
+* argv[1] 
+
 possible exploit :
         * inject shellcode in file name
 
