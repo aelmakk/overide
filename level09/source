@@ -1,6 +1,18 @@
 #include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <unistd.h>
 
-set_msg(char *ptr)
+void    secret_backdoor()
+{
+    char buff[128];
+
+    fgets(buff, 128, stdin);
+    system(buff);
+    return;
+}
+
+void    set_msg(char *ptr)
 {
     char *ptr = ptr;
     char buff[1024];
@@ -9,36 +21,36 @@ set_msg(char *ptr)
     puts(">: Msg @Unix-Dude");
     printf(">>: ");
     fgets(buff, 1024, stdin);
-    strncpy(ptr, buff, ptr + 0xb4);
+    strncpy(ptr, buff, ptr + 180);
 }
 
-set_username(char *username)
+void    set_username(char *username)
 {
     int32_t counter;
     char buff[128];
 
+    bzero(buff, 128);
     puts(">: Enter your username");
     printf(">>: ");
-    fgets(buff, 0x80, stdin); // 0x80 ==> 128
+    fgets(buff, 128, stdin); 
     counter = 0;
-    while (counter <= 0x28 && buff[counter])
+    while (counter <= 40 && buff[counter])
     {
-        // copy 41 char to username + 0x8c
+        *(username + 140) = buff[counter];
         counter += 1;
-    }
-    printf(">: Welcome, %s", username + 0x8c);
+    } 
+    printf(">: Welcome, %s", username + 140);
 }
 
 void    handle_msg()
 {
-    int32_t a;
-    char buff2[40];
-    char buff1[140];
+    int32_t value;
+    char buff[180];
 
-    memset (buff2, '\0', sizeof(buff2));
-    a = 0x8c ; // 140
-    set_username(buff1);
-    set_msg(buff1);
+    bzero (buff + 140, 5 * 8);
+    value = 140;
+    set_username(buff);
+    set_msg(buff);
     puts(">: Msg sent!");
 }
 
