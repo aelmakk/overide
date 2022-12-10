@@ -21,7 +21,7 @@ void    set_msg(char *ptr)
     puts(">: Msg @Unix-Dude");
     printf(">>: ");
     fgets(buff, 1024, stdin);
-    strncpy(ptr, buff, ptr + 180); // ptr + 180 the value that determine the length of msg.
+    strncpy(ptr, buff, *(size_t)(ptr + 180)); // ptr + 180 the value that determine the length of msg.
 }
 
 void    set_username(char *username)
